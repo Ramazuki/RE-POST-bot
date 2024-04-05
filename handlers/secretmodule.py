@@ -16,7 +16,9 @@ async def print_secret(message: types.Message):
 
 @router.callback_query(F.data == "payment")
 async def payment_options(callback: types.CallbackQuery):
-    text = ("Оплата вебинара ЛЮБОЙ суммой от сердца\n\nпо номеру телефона\n<b>+79243041773</b>\nСбербанк"
+    name = callback.from_user.full_name
+    text = (f"Привет, {name}\n\n"
+            f"Оплата вебинара ЛЮБОЙ суммой от сердца\n\nпо номеру телефона\n<b>+79243041773</b>\nСбербанк"
             "\n\nКарта\n<b>4276 7014 2105 2624</b>")
     builder = InlineKeyboardBuilder()
     key = InlineKeyboardButton(text="Перевод через сбер",
