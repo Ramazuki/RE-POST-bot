@@ -1,17 +1,17 @@
 from aiogram import Router, F, types
-from aiogram.filters import Command
+from aiogram.filters import Command, StateFilter
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 router = Router()
 
 
-@router.message(Command("secret"))
+@router.message(Command("secret"), StateFilter(None))
 async def print_secret(message: types.Message):
     builder = InlineKeyboardBuilder()
     key = InlineKeyboardButton(text="Оплатить", callback_data="payment")
     builder.add(key)
-    await message.answer(text="Какой-то текст тут", reply_markup=builder.as_markup())
+    await message.answer(text="<b>Оплатить вебинар кнопкой!</b>", reply_markup=builder.as_markup())
 
 
 @router.callback_query(F.data == "payment")

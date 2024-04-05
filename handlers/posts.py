@@ -1,4 +1,5 @@
 from aiogram import Router, F, types
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
@@ -50,12 +51,13 @@ async def set_button_name(message: types.Message, state: FSMContext):
     button: InlineKeyboardButton
     if data["is_url"]:
         button = InlineKeyboardButton(text=message.text, url=data["button_url"])
-    try:
         builder.add(button)
-    except:
-        pass
     await message.answer("Ваше сообщение")
-    await message.answer(text=data["post_text"], reply_markup=builder.as_markup())
+    try:
+        await message.answer(text=data["post_text"], reply_markup=builder.as_markup())
+    except TelegramBadRequest:
+        await message.answer(text=data["post_text"])
+        await message.answer("Ошибка в ссылке")
     await state.clear()
 
 
