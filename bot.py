@@ -3,7 +3,7 @@ import logging
 
 from aiogram import Bot, Dispatcher
 from config_reader import config
-from handlers import commands, posts, secretmodule
+from handlers import posts, secretmodule
 
 logging.basicConfig(level=logging.INFO)
 
