@@ -3,6 +3,8 @@ from aiogram.filters import Command, StateFilter
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from bot import bot
+
 router = Router()
 
 
@@ -16,6 +18,7 @@ async def print_secret(message: types.Message):
 
 @router.callback_query(F.data == "payment")
 async def payment_options(callback: types.CallbackQuery):
+    id = callback.from_user.id
     name = callback.from_user.full_name
     text = (f"Привет, {name}\n\n"
             f"Оплата вебинара ЛЮБОЙ суммой от сердца\n\nпо номеру телефона\n<b>+79243041773</b>\nСбербанк"
@@ -24,5 +27,8 @@ async def payment_options(callback: types.CallbackQuery):
     key = InlineKeyboardButton(text="Перевод через сбер",
                                url="https://www.sberbank.com/sms/pbpn?requisiteNumber=79243041773")
     builder.add(key)
-    await callback.message.answer(text, reply_markup=builder.as_markup())
+    try:
+        await bot.send_message(chat_id=id, text=text, reply_markup=builder.as_markup())
+    except:
+        await callback.message.answer(text, reply_markup=builder.as_markup())
     await callback.answer("Спасибо за интерес!")

@@ -6,11 +6,11 @@ from config_reader import config
 from handlers import posts, secretmodule
 
 logging.basicConfig(level=logging.INFO)
+BOT_TOKEN = config.bot_token.get_secret_value()
+bot = Bot(token=BOT_TOKEN, parse_mode="HTML")
 
 
 async def main():
-    BOT_TOKEN = config.bot_token.get_secret_value()
-    bot = Bot(token=BOT_TOKEN, parse_mode="HTML")
     dp = Dispatcher()
 
     dp.include_routers(posts.router, secretmodule.router)
