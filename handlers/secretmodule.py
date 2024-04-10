@@ -11,9 +11,22 @@ router = Router()
 @router.message(Command("secret"), StateFilter(None))
 async def print_secret(message: types.Message):
     builder = InlineKeyboardBuilder()
-    key = InlineKeyboardButton(text="Оплатить", callback_data="payment")
+    #key = InlineKeyboardButton(text="Оплатить", callback_data="payment")
+    key = InlineKeyboardButton(text="Оплатить", url="https://t.me/oksana_donation/5")
     builder.add(key)
     await message.answer(text="<b>Donation!</b>", reply_markup=builder.as_markup())
+
+
+@router.message(Command("secretch"), StateFilter(None))
+async def send_channel(message: types.Message):
+    text = (f"Оплата вебинара ЛЮБОЙ суммой от сердца\n\nпо номеру телефона\n<b>+79243041773</b>\nСбербанк"
+            "\n\nКарта\n<b>4276 7014 2105 2624</b>")
+    builder = InlineKeyboardBuilder()
+    key = InlineKeyboardButton(text="Перевод через сбер",
+                               url="https://www.sberbank.com/sms/pbpn?requisiteNumber=79243041773")
+    builder.add(key)
+    id = "-1001997096943"
+    await bot.send_message(chat_id=id, text=text, reply_markup=builder.as_markup())
 
 
 @router.callback_query(F.data == "payment")

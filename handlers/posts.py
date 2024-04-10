@@ -18,10 +18,9 @@ class CreatePost(StatesGroup):
     setting_button_name = State()
 
 
-@router.message(Command("start"))
+@router.message(Command("start"), StateFilter(None))
 async def start_handler(message: types.Message):
-    keyboard = await create_keyboard()
-    await message.reply(text="Кнопки", reply_markup=keyboard)
+    await message.reply(text="Приветик, спасибо за подписку!")
 
 
 @router.message(StateFilter(None), Command("newpost"))
